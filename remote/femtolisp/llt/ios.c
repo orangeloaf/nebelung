@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <wchar.h>
 #include <stdio.h> // for printf
+#include <sys/stat.h>
 
 #include "dtypes.h"
 
@@ -13,12 +14,13 @@
 #include <malloc.h>
 #include <io.h>
 #include <fcntl.h>
-#define fileno _fileno
+#if !defined(fileno)
+#  define fileno _fileno
+#endif
 #else
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/select.h>
-#include <sys/stat.h>
 #include <fcntl.h>
 #endif
 
@@ -65,8 +67,12 @@ static void _fd_poll(long fd, int forwrite)
 
 static int _enonfatal(int err)
 {
-    return (err == EAGAIN || err == EINPROGRESS || err == EINTR ||
-            err == EWOULDBLOCK);
+    return (err == EAGAIN ||
+#if defined( ENABLE_SOCKET_SUPPORT )
+            err == EINPROGRESS ||
+            err == EWOULDBLOCK ||
+#endif
+            err == EINTR);
 }
 
 #define SLEEP_TIME 5//ms
@@ -751,7 +757,11 @@ ios_t *ios_file(ios_t *s, char *fname, int rd, int wr, int create, int trunc)
     int flags = wr ? (rd ? O_RDWR : O_WRONLY) : O_RDONLY;
     if (create) flags |= O_CREAT;
     if (trunc)  flags |= O_TRUNC;
+#ifdef WIN32
+    fd = open(fname, flags, _S_IREAD|_S_IWRITE);
+#else
     fd = open(fname, flags, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH/*644*/);
+#endif
     s = ios_fd(s, fd, 1, 1);
     if (fd == -1)
         goto open_file_err;
