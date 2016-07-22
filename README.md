@@ -51,3 +51,9 @@ Hacks needed to compile are noted here in brief, gorey details are in the repo h
 -- winsock2.h copied from gcc/include to tinycc/include
 - "unknown constraint t" bug in math.h
 -- fix to i386-asm.c, [patch found here](https://lists.nongnu.org/archive/html/tinycc-devel/2014-08/msg00024.html)
+
+# Building with gcc
+
+Although building with TinyCC is the goal, building with gcc should also be supported.
+
+For Windows users, MinGW + MSYS is a good setup for this.

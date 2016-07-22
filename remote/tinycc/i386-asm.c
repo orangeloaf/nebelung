@@ -1029,6 +1029,9 @@ static inline int constraint_priority(const char *str)
         case 'i':
         case 'm':
         case 'g':
+        case 'f':
+        case 't':
+        case 'u':
             pr = 4;
             break;
         default:
@@ -1210,6 +1213,11 @@ ST_FUNC void asm_compute_constraints(ASMOperand *operands,
         case 'M':
             if (!((op->vt->r & (VT_VALMASK | VT_LVAL | VT_SYM)) == VT_CONST))
                 goto try_next;
+            break;
+        case 'f':
+        case 't':
+        case 'u':
+            /* float */
             break;
         case 'm':
         case 'g':
