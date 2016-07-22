@@ -26,7 +26,9 @@
 #elif defined(__FreeBSD__)
 #  define FREEBSD
 #elif defined(_WIN32)
-#  define WIN32
+#  if !defined(WIN32)
+#    define WIN32
+#  endif
 #else
 #  error "unknown platform"
 #endif
