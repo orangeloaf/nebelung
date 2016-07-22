@@ -1,6 +1,8 @@
 #FREEBSD-GE-10 = $(shell test `uname` = FreeBSD -a `uname -r | cut -d. -f1` -ge 10 && echo YES)
-#CC = $(if $(FREEBSD-GE-10),clang,gcctcc)
-CC = tcc
+#CC = $(if $(FREEBSD-GE-10),clang,gcc)
+
+TCC = $(shell command -v tcc 2> /dev/null)
+CC = $(if $(TCC),tcc,gcc)
 
 NAME = flisp
 SRCS = $(NAME).c builtins.c string.c equalhash.c table.c iostream.c
