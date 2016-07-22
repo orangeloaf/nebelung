@@ -39,6 +39,10 @@
 #endif
 #endif
 
+#if defined(__TINYC__)
+#  define __SIZEOF_POINTER__ 8
+#endif
+
 #if !defined (BITS32) && !defined (BITS64)
 #ifndef __SIZEOF_POINTER__
 #  error "__SIZEOF_POINTER__ undefined"

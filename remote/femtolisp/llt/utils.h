@@ -23,6 +23,9 @@
 #elif defined( __i386__ )//gnu c
 #  define ARCH_X86
 #  define __CPU__ 386
+#elif defined( __TINYC__) // tinycc
+#  define ARCH_X86
+#  define __CPU__ 686
 #else
 #  error "unknown architecture"
 #endif
