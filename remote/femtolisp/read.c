@@ -1,3 +1,8 @@
+
+#ifdef WIN32
+#  define strcasecmp _stricmp
+#endif
+
 enum {
     TOK_NONE, TOK_OPEN, TOK_CLOSE, TOK_DOT, TOK_QUOTE, TOK_SYM, TOK_NUM,
     TOK_BQ, TOK_COMMA, TOK_COMMAAT, TOK_COMMADOT,

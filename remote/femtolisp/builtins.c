@@ -327,6 +327,9 @@ static value_t fl_time_string(value_t *args, uint32_t nargs)
 
 static value_t fl_time_fromstring(value_t *args, uint32_t nargs)
 {
+#if defined WIN32
+    return 0;
+#else
     argcount("time.fromstring", nargs, 1);
     char *ptr = tostring(args[0], "time.fromstring");
     double t = parsetime(ptr);
@@ -334,6 +337,7 @@ static value_t fl_time_fromstring(value_t *args, uint32_t nargs)
     if ((double)it == t && fits_fixnum(it))
         return fixnum(it);
     return mk_double(t);
+#endif
 }
 
 static value_t fl_path_cwd(value_t *args, uint32_t nargs)
@@ -378,19 +382,26 @@ static value_t fl_os_getenv(value_t *args, uint32_t nargs)
 static value_t fl_os_setenv(value_t *args, uint32_t nargs)
 {
     argcount("os.setenv", nargs, 2);
-    char *name = tostring(args[0], "os.setenv");
     int result;
     if (args[1] == FL_F) {
-#ifdef LINUX
+#if defined WIN32
+        result = 1;
+#elif defined LINUX
+        char *name = tostring(args[0], "os.setenv");
         result = unsetenv(name);
 #else
+        char *name = tostring(args[0], "os.setenv");
         (void)unsetenv(name);
         result = 0;
 #endif
     }
     else {
+#if defined WIN32
+        result = 1;
+#else
         char *val = tostring(args[1], "os.setenv");
         result = setenv(name, val, 1);
+#endif
     }
     if (result != 0)
         lerror(ArgError, "os.setenv: invalid environment variable");

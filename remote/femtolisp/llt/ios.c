@@ -33,7 +33,7 @@
 
 /* OS-level primitive wrappers */
 
-#if defined(MACOSX)
+#if defined(MACOSX) || defined(WIN32)
 void *memrchr(const void *s, int c, size_t n)
 {
     const unsigned char *src = s + n;
@@ -965,7 +965,23 @@ char *ios_readline(ios_t *s)
     return ios_takebuf(&dest, &n);
 }
 
+#ifdef WIN32
+int vasprintf(char ** __restrict__ ret, const char * __restrict__ format, va_list ap)
+{
+    int len;
+    len = _vsnprintf(NULL, 0, format, ap);
+    if (len < 0) { return -1; }
+
+    *ret = malloc(len + 1);
+    if (!*ret) { return -1; }
+
+    _vsnprintf(*ret, len+1, format, ap);
+    (*ret)[len] = '\0';
+    return len;
+}
+#else
 int vasprintf(char **strp, const char *fmt, va_list ap);
+#endif
 
 int ios_vprintf(ios_t *s, const char *format, va_list args)
 {
