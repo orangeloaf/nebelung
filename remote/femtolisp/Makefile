@@ -59,3 +59,4 @@ clean:
 	rm -f $(EXENAME)
 	rm -f $(LIBTARGET).a
 	rm -f $(LIBTARGET).da
+	cd $(LLTDIR) && $(MAKE) clean

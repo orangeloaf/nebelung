@@ -1,7 +1,5 @@
 #include "ieee754.h"
 
-extern void *memrchr(const void *s, int c, size_t n);
-
 static htable_t printconses;
 static u_int32_t printlabel;
 static int print_pretty;
@@ -729,13 +727,6 @@ static void cvalue_printdata(ios_t *f, void *data, size_t len, value_t type,
             if (eltype == bytesym) {
                 if (print_princ) {
                     ios_write(f, data, len);
-                    /*
-                    char *nl = memrchr(data, '\n', len);
-                    if (nl)
-                        HPOS = u8_strwidth(nl+1);
-                    else
-                        HPOS += u8_strwidth(data);
-                    */
                 }
                 else {
                     print_string(f, (char*)data, len);

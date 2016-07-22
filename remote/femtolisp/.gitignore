@@ -2,6 +2,7 @@
 /*.do
 /*.a
 /*.da
+/*.exe
 /flisp
 /llt/*.o
 /llt/*.a
