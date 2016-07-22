@@ -1,3 +1,5 @@
+#ifdef ENABLE_SOCKET_SUPPORT
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -226,3 +228,5 @@ int socket_ready(int sock)
     select(sock+1, &fds, NULL, NULL, &timeout);
     return FD_ISSET(sock, &fds);
 }
+
+#endif // ENABLE_SOCKET_SUPPORT

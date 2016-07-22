@@ -6,7 +6,9 @@
 #include "utils.h"
 #include "utf8.h"
 #include "ios.h"
+#ifdef ENABLE_SOCKET_SUPPORT
 #include "socket.h"
+#endif
 #include "timefuncs.h"
 #include "hashing.h"
 #include "ptrhash.h"
