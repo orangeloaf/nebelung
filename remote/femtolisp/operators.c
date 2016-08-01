@@ -4,11 +4,11 @@
 #include "utils.h"
 #include "ieee754.h"
 
-extern double trunc(double x);
+extern double floor(double x);
 
 STATIC_INLINE double fpart(double arg)
 {
-    return arg - trunc(arg);
+    return arg - floor(arg);
 }
 
 // given a number, determine an appropriate type for storing it

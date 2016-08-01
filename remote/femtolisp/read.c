@@ -66,14 +66,14 @@ int isnumtok_base(char *tok, value_t *pval, int base)
             return 1;
         }
         errno = 0;
-        i64 = strtoll(tok, &end, base);
+        i64 = strtol(tok, &end, base);
         if (errno)
             return 0;
         if (pval) *pval = return_from_int64(i64);
         return (*end == '\0');
     }
     errno = 0;
-    ui64 = strtoull(tok, &end, base);
+    ui64 = strtoul(tok, &end, base);
     if (errno)
         return 0;
     if (pval) *pval = return_from_uint64(ui64);

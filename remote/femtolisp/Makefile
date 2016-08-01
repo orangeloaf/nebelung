@@ -15,7 +15,7 @@ LLT = $(LLTDIR)/libllt.a
 
 FLAGS = -falign-functions -Wall -Wno-strict-aliasing -I$(LLTDIR) $(CFLAGS) -DUSE_COMPUTED_GOTO
 LIBFILES = $(LLT)
-LIBS = $(LIBFILES) -lm
+LIBS = $(LIBFILES)
 
 DEBUGFLAGS = -g -DDEBUG $(FLAGS)
 SHIPFLAGS = -O2 -DNDEBUG $(FLAGS)
@@ -36,7 +36,7 @@ flmain.o: flmain.c flisp.h
 flmain.do: flmain.c flisp.h
 
 $(LLT):
-	cd $(LLTDIR) && $(MAKE)
+	cd $(LLTDIR) && "$(MAKE)"
 
 $(LIBTARGET).da: $(DOBJS)
 	rm -rf $@
@@ -48,7 +48,7 @@ $(LIBTARGET).a: $(OBJS)
 
 debug: $(DOBJS) $(LIBFILES) $(LIBTARGET).da flmain.do
 	$(CC) $(DEBUGFLAGS) $(DOBJS) flmain.do -o $(EXENAME) $(LIBS) $(LIBTARGET).da
-	$(MAKE) test
+	"$(MAKE)" test
 
 release: $(OBJS) $(LIBFILES) $(LIBTARGET).a flmain.o
 	$(CC) $(SHIPFLAGS) $(OBJS) flmain.o -o $(EXENAME) $(LIBS) $(LIBTARGET).a
@@ -59,4 +59,4 @@ clean:
 	rm -f $(EXENAME)
 	rm -f $(LIBTARGET).a
 	rm -f $(LIBTARGET).da
-	cd $(LLTDIR) && $(MAKE) clean
+	cd $(LLTDIR) && "$(MAKE)" clean

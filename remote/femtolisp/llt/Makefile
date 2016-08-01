@@ -1,8 +1,11 @@
-FREEBSD-GE-10 = $(shell test `uname` = FreeBSD -a `uname -r | cut -d. -f1` -ge 10 && echo YES)
-CC = $(if $(FREEBSD-GE-10),clang,gcc)
+#FREEBSD-GE-10 = $(shell test `uname` = FreeBSD -a `uname -r | cut -d. -f1` -ge 10 && echo YES)
+#CC = $(if $(FREEBSD-GE-10),clang,gcc)
+
+TCC = $(shell command -v tcc 2> /dev/null)
+CC = $(if $(TCC),tcc,gcc)
 
 SRCS = bitvector.c hashing.c socket.c timefuncs.c ptrhash.c utf8.c ios.c \
-	dirpath.c htable.c bitvector-ops.c int2str.c dump.c random.c \
+	dirpath.c htable.c bitvector-ops.c int2str.c dump.c random.c wcwidth.c \
 	lltinit.c
 OBJS = $(SRCS:%.c=%.o)
 DOBJS = $(SRCS:%.c=%.do)
