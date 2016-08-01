@@ -4,11 +4,19 @@
 #include "utils.h"
 #include "ieee754.h"
 
+#if defined(__TINYC__) // TinyCC
 extern double floor(double x);
+#else
+extern double trunc(double x);
+#endif
 
 STATIC_INLINE double fpart(double arg)
 {
+#if defined(__TINYC__) // TinyCC
     return arg - floor(arg);
+#else
+    return arg - trunc(arg);
+#endif
 }
 
 // given a number, determine an appropriate type for storing it

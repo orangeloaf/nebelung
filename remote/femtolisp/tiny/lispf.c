@@ -64,8 +64,8 @@ typedef struct _symbol_t {
 #define number(x) ((*(value_t*)&(x))&~0x3)
 #define numval(x)  (*(number_t*)&(x))
 #define NUM_FORMAT "%f"
-extern float strtod(const char *nptr, char **endptr);
-#define strtonum(s, e) strtod(s, e)
+extern float strtof(const char *nptr, char **endptr);
+#define strtonum(s, e) strtof(s, e)
 #else
 #define number(x) ((value_t)((x)<<2))
 #define numval(x)  (((number_t)(x))>>2)

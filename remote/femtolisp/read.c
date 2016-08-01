@@ -66,14 +66,24 @@ int isnumtok_base(char *tok, value_t *pval, int base)
             return 1;
         }
         errno = 0;
+#if defined(__TINYC__) // TinyCC
+        // TODO: fixme - causes overflow in numeric constant test failure
         i64 = strtol(tok, &end, base);
+#else
+        i64 = strtoll(tok, &end, base);
+#endif
         if (errno)
             return 0;
         if (pval) *pval = return_from_int64(i64);
         return (*end == '\0');
     }
     errno = 0;
+#if defined(__TINYC__) // TinyCC
+    // TODO: fixme - causes overflow in numeric constant test failure
     ui64 = strtoul(tok, &end, base);
+#else
+    ui64 = strtoull(tok, &end, base);
+#endif
     if (errno)
         return 0;
     if (pval) *pval = return_from_uint64(ui64);

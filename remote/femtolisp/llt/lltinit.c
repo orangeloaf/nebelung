@@ -32,8 +32,16 @@ void llt_init()
     D_NNAN = -strtod("+NaN",NULL);
     D_PINF = strtod("+Inf",NULL);
     D_NINF = strtod("-Inf",NULL);
+#if defined(__TINYC__) // TinyCC
+    // TODO: find a better way to query math constants
     F_PNAN = strtod("+NaN",NULL);
     F_NNAN = -strtod("+NaN",NULL);
     F_PINF = strtod("+Inf",NULL);
     F_NINF = strtod("-Inf",NULL);
+#else
+    F_PNAN = strtof("+NaN",NULL);
+    F_NNAN = -strtof("+NaN",NULL);
+    F_PINF = strtof("+Inf",NULL);
+    F_NINF = strtof("-Inf",NULL);
+#endif
 }
